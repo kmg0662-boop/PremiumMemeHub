@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antigravity Meme Hub | 안티그래비티 짤 관리자</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo">ANTIGRAVITY <span>MEME HUB</span></div>
+            <h1>대장님만의 <span>프리미엄 짤 창고</span></h1>
+            <p>짤을 올리면 김비서가 바로 라이브러리에 입고합니다! 🚀</p>
+        </header>
+
+        <main>
+            <section class="upload-section glass">
+                <div class="upload-area" id="drop-zone">
+                    <input type="file" id="file-input" hidden accept="image/*">
+                    <div class="upload-icon">📸</div>
+                    <p>이미지를 드래그하거나 클릭하여 업로드하세요</p>
+                    <span class="file-info" id="file-name"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">카테고리 (Category)</label>
+                    <input type="text" id="category" placeholder="예: Luck, Satisfaction, Angry..." list="category-list">
+                    <datalist id="category-list">
+                        <option value="Luck">
+                        <option value="Satisfaction">
+                        <option value="Praise">
+                        <option value="Love">
+                        <option value="Angry">
+                        <option value="Tired">
+                    </datalist>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">짤 설명 (Description)</label>
+                    <textarea id="description" placeholder="이 짤은 어떤 상황에서 쓰나요? (예: 장원영 럭키비키 짤)"></textarea>
+                </div>
+
+                <button id="add-btn" class="primary-btn">라이브러리 입고 요청하기 ✨</button>
+            </section>
+
+            <section class="preview-section glass" id="preview-panel" style="display: none;">
+                <h2>미리보기 (Preview)</h2>
+                <div class="meme-card">
+                    <div class="card-image">
+                        <img id="preview-img" src="" alt="Preview">
+                    </div>
+                    <div class="card-info">
+                        <span class="card-badge" id="preview-category">Category</span>
+                        <p id="preview-desc">Description will appear here...</p>
+                    </div>
+                </div>
+                <div class="markdown-output">
+                    <h3>Markdown Code</h3>
+                    <code>| <b id="md-cat">Category</b> | <span id="md-desc">Description</span> | <span id="md-url">URL</span> |</code>
+                    <button class="copy-btn" id="copy-btn">마크다운 복사 📋</button>
+                </div>
+            </section>
+        </main>
+
+        <section class="recent-memes">
+            <h2>최근 입고된 짤 📂</h2>
+            <div class="meme-grid" id="meme-grid">
+                <!-- Data will be populated by JS -->
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2026 Antigravity AI Team | Designed for 대장님 🫡</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
