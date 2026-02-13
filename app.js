@@ -83,25 +83,60 @@ function updateMarkdown() {
     mdUrl.textContent = url;
 }
 
-addBtn.addEventListener('click', () => {
+addBtn.addEventListener('click', async () => {
     if (!currentFile || !categoryInput.value || !descInput.value) {
         alert('모든 필드(이미지, 카테고리, 설명)를 입력해주세요!');
         return;
     }
 
-    const newMeme = {
-        id: Date.now(),
+    const memeData = {
         category: categoryInput.value,
         description: descInput.value,
         imgData: previewImg.src,
         fileName: currentFile.name
     };
 
-    savedMemes.unshift(newMeme);
-    localStorage.setItem('antigravity_memes', JSON.stringify(savedMemes));
-    
-    renderMemes();
-    alert('성공적으로 입고되었습니다! 이제 이 마크다운 코드를 복사해서 채팅창에 붙여넣어 주세요! 🫡');
+    try {
+        addBtn.disabled = true;
+        addBtn.textContent = '김비서에게 전송 중... 🚀';
+
+        const response = await fetch('http://localhost:3042/api/sync', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(memeData)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            const newMeme = {
+                id: Date.now(),
+                ...memeData,
+                localUrl: result.localUrl
+            };
+
+            savedMemes.unshift(newMeme);
+            localStorage.setItem('antigravity_memes', JSON.stringify(savedMemes));
+            
+            renderMemes();
+            alert('성공적으로 전송되었습니다! 이제 김비서가 이 짤을 바로 사용할 수 있습니다. 🫡');
+            
+            // Reset form
+            categoryInput.value = '';
+            descInput.value = '';
+            previewPanel.style.display = 'none';
+            currentFile = null;
+            fileNameDisplay.textContent = '';
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (error) {
+        console.error('Sync failed:', error);
+        alert('전송 실패! 서버가 켜져 있는지 확인해주세요. (김비서에게 "서버 켜줘"라고 말해보세요!)');
+    } finally {
+        addBtn.disabled = false;
+        addBtn.textContent = '김비서에게 직접 전송 ✨';
+    }
 });
 
 copyBtn.addEventListener('click', () => {
