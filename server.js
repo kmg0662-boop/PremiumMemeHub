@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = 3048;
+const PORT = 3042;
 // Use relative path to go from Projects/Jjalbang_Project/ to Agents/.agent/memes.md
 const MEMES_MD_PATH = path.resolve(__dirname, '../../Agents/.agent/memes.md');
 const MEMES_DIR = path.join(__dirname, "memes");

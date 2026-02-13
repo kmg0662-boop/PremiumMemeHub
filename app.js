@@ -100,7 +100,7 @@ addBtn.addEventListener('click', async () => {
         addBtn.disabled = true;
         addBtn.textContent = '김비서에게 전송 중... 🚀';
 
-        const response = await fetch('http://localhost:3048/api/sync', {
+        const response = await fetch('http://localhost:3042/api/sync', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(memeData)
