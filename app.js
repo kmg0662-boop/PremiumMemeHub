@@ -111,12 +111,23 @@ addBtn.addEventListener('click', async () => {
         if (result.success) {
             const newMeme = {
                 id: Date.now(),
-                ...memeData,
-                localUrl: result.localUrl
+                category: memeData.category,
+                description: memeData.description,
+                localUrl: result.localUrl,
+                fileName: memeData.fileName
+                // imgData is NOT saved to localStorage anymore to save space
             };
 
             savedMemes.unshift(newMeme);
-            localStorage.setItem('antigravity_memes', JSON.stringify(savedMemes));
+            // Limit history to 20 items to be safe
+            if (savedMemes.length > 20) savedMemes.pop();
+            
+            try {
+                localStorage.setItem('antigravity_memes', JSON.stringify(savedMemes));
+            } catch (e) {
+                console.warn('LocalStorage save failed, clearing old history...');
+                localStorage.removeItem('antigravity_memes');
+            }
             
             renderMemes();
             alert('성공적으로 전송되었습니다! 이제 김비서가 이 짤을 바로 사용할 수 있습니다. 🫡');
@@ -153,9 +164,10 @@ function renderMemes() {
     savedMemes.forEach(meme => {
         const card = document.createElement('div');
         card.className = 'meme-card glass';
+        const displayImg = meme.imgData || 'https://via.placeholder.com/200x120/0f172a/6366f1?text=Synced+to+Siwoo';
         card.innerHTML = `
             <div class="card-imageSmall" style="height: 120px; overflow: hidden;">
-                <img src="${meme.imgData}" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="${displayImg}" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
             <div class="card-info" style="padding: 0.8rem;">
                 <span class="card-badge" style="font-size: 0.7rem;">${meme.category}</span>
