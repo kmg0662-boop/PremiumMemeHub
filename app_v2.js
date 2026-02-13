@@ -1,6 +1,10 @@
-// Force clear old problematic storage
-localStorage.clear();
+// Removed localStorage.clear() to preserve history now that it's optimized
 const dropZone = document.getElementById('drop-zone');
+
+// Check for Mixed Content issues (HTTPS site talking to HTTP localhost)
+if (window.location.protocol === 'https:' && !window.location.hostname.includes('localhost')) {
+    console.warn('⚠️ 보안 정책(Mixed Content)으로 인해 로컬 서버와 통신이 차단될 수 있습니다. 배포된 페이지 대신 로컬의 index.html 파일을 직접 열어 사용하시는 것을 추천합니다!');
+}
 const fileInput = document.getElementById('file-input');
 const fileNameDisplay = document.getElementById('file-name');
 const previewPanel = document.getElementById('preview-panel');
@@ -115,9 +119,9 @@ addBtn.addEventListener('click', async () => {
                 id: Date.now(),
                 category: memeData.category,
                 description: memeData.description,
-                localUrl: result.localUrl,
-                fileName: memeData.fileName
-                // imgData is NOT saved to localStorage anymore to save space
+                localUrl: result.localUrl, // This will now be http://localhost:3042/...
+                fileName: memeData.fileName,
+                imgData: result.localUrl // Use the server URL for preview too
             };
 
             savedMemes.unshift(newMeme);
