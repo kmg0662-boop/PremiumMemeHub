@@ -1,3 +1,5 @@
+// Force clear old problematic storage
+localStorage.clear();
 const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
 const fileNameDisplay = document.getElementById('file-name');
